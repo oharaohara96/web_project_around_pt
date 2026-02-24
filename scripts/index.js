@@ -44,6 +44,16 @@ function closeModal(modal) {
   modal.classList.remove("popup_is-opened");
 }
 
+function fillProfileForm() {
+  nameInput.value = profileTitle.textContent;
+  jobInput.value = profileDescription.textContent;
+}
+
+function handleOpenEditModal() {
+  fillProfileForm();
+  openModal(editPopup);
+}
+
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
 
@@ -53,12 +63,7 @@ function handleProfileFormSubmit(evt) {
   closeModal(editPopup);
 }
 
-editButton.addEventListener("click", () => {
-  nameInput.value = profileTitle.textContent;
-  jobInput.value = profileDescription.textContent;
-
-  openModal(editPopup);
-});
+editButton.addEventListener("click", handleOpenEditModal);
 
 closeButton.addEventListener("click", () => {
   closeModal(editPopup);
