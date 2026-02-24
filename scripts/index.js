@@ -57,8 +57,11 @@ function handleOpenEditModal() {
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
 
-  profileTitle.textContent = nameInput.value;
-  profileDescription.textContent = jobInput.value;
+  const newName = nameInput.value;
+  const newJob = jobInput.value;
+
+  profileTitle.textContent = newName;
+  profileDescription.textContent = newJob;
 
   closeModal(editPopup);
 }
@@ -72,5 +75,5 @@ closeButton.addEventListener("click", () => {
 editForm.addEventListener("submit", handleProfileFormSubmit);
 
 initialCards.forEach((card) => {
-  console.log(`Card carregado: ${card.name}`);
+  console.log(`Card pronto: ${card.name}`);
 });
