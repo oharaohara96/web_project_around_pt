@@ -24,6 +24,48 @@ const initialCards = [
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lago.jpg",
   },
 ];
+
+const profileTitle = document.querySelector(".profile__title");
+const profileDescription = document.querySelector(".profile__description");
+
+const editPopup = document.querySelector("#edit-popup");
+const editButton = document.querySelector(".profile__edit-button");
+const closeButton = editPopup.querySelector(".popup__close");
+
+const editForm = document.querySelector("#edit-profile-form");
+const nameInput = document.querySelector(".popup__input_type_name");
+const jobInput = document.querySelector(".popup__input_type_description");
+
+function openModal(modal) {
+  modal.classList.add("popup_is-opened");
+}
+
+function closeModal(modal) {
+  modal.classList.remove("popup_is-opened");
+}
+
+function handleProfileFormSubmit(evt) {
+  evt.preventDefault();
+
+  profileTitle.textContent = nameInput.value;
+  profileDescription.textContent = jobInput.value;
+
+  closeModal(editPopup);
+}
+
+editButton.addEventListener("click", () => {
+  nameInput.value = profileTitle.textContent;
+  jobInput.value = profileDescription.textContent;
+
+  openModal(editPopup);
+});
+
+closeButton.addEventListener("click", () => {
+  closeModal(editPopup);
+});
+
+editForm.addEventListener("submit", handleProfileFormSubmit);
+
 initialCards.forEach((card) => {
-  onsole.log(card.name);
+  console.log(`Card carregado: ${card.name}`);
 });
