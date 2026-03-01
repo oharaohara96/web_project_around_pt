@@ -1,3 +1,4 @@
+// --- DADOS INICIAIS ---
 const initialCards = [
   {
     name: "Vale de Yosemite",
@@ -25,18 +26,24 @@ const initialCards = [
   },
 ];
 
-const profileTitle = document.querySelector(".profile__title");
-const profileDescription = document.querySelector(".profile__description");
 const cardsList = document.querySelector(".cards__list");
 const cardTemplate = document.querySelector("#card-template").content;
 
-const editPopup = document.querySelector("#edit-popup");
+const profileTitle = document.querySelector(".profile__title");
+const profileDescription = document.querySelector(".profile__description");
 const editButton = document.querySelector(".profile__edit-button");
-const closeButton = editPopup.querySelector(".popup__close");
-
+const editPopup = document.querySelector("#edit-popup");
+const closeEditButton = editPopup.querySelector(".popup__close");
 const editForm = document.querySelector("#edit-profile-form");
 const nameInput = document.querySelector(".popup__input_type_name");
 const jobInput = document.querySelector(".popup__input_type_description");
+
+const newCardPopup = document.querySelector("#new-card-popup");
+const addButton = document.querySelector(".profile__add-button");
+const closeNewCardButton = newCardPopup.querySelector(".popup__close");
+const newCardForm = document.querySelector("#new-card-form");
+const inputPlaceName = document.querySelector(".popup__input_type_card-name");
+const inputUrl = document.querySelector(".popup__input_type_url");
 
 function openModal(modal) {
   modal.classList.add("popup_is-opened");
@@ -82,9 +89,29 @@ function renderCard(name, link, container) {
   container.prepend(cardElement);
 }
 
+function handleOpenNewCardModal() {
+  newCardForm.reset();
+  openModal(newCardPopup);
+}
+
+function handleCardFormSubmit(evt) {
+  evt.preventDefault();
+
+  const name = inputPlaceName.value;
+  const link = inputUrl.value;
+
+  renderCard(name, link, cardsList);
+
+  closeModal(newCardPopup);
+}
+
 editButton.addEventListener("click", handleOpenEditModal);
-closeButton.addEventListener("click", () => closeModal(editPopup));
+closeEditButton.addEventListener("click", () => closeModal(editPopup));
 editForm.addEventListener("submit", handleProfileFormSubmit);
+
+addButton.addEventListener("click", handleOpenNewCardModal);
+closeNewCardButton.addEventListener("click", () => closeModal(newCardPopup));
+newCardForm.addEventListener("submit", handleCardFormSubmit);
 
 initialCards.forEach((card) => {
   renderCard(card.name, card.link, cardsList);
