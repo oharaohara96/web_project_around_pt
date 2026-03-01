@@ -1,4 +1,3 @@
-// --- DADOS INICIAIS ---
 const initialCards = [
   {
     name: "Vale de Yosemite",
@@ -26,11 +25,9 @@ const initialCards = [
   },
 ];
 
-// --- SELETORES GERAIS ---
 const cardsList = document.querySelector(".cards__list");
 const cardTemplate = document.querySelector("#card-template").content;
 
-// Seletores do Perfil
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
 const editButton = document.querySelector(".profile__edit-button");
@@ -40,7 +37,6 @@ const editForm = document.querySelector("#edit-profile-form");
 const nameInput = document.querySelector(".popup__input_type_name");
 const jobInput = document.querySelector(".popup__input_type_description");
 
-// Seletores do Popup "Novo Local"
 const newCardPopup = document.querySelector("#new-card-popup");
 const addButton = document.querySelector(".profile__add-button");
 const closeNewCardButton = newCardPopup.querySelector(".popup__close");
@@ -48,7 +44,11 @@ const newCardForm = document.querySelector("#new-card-form");
 const inputPlaceName = document.querySelector(".popup__input_type_card-name");
 const inputUrl = document.querySelector(".popup__input_type_url");
 
-// --- FUNÇÕES DE MODAL ---
+const imagePopup = document.querySelector("#image-popup");
+const popupImage = imagePopup.querySelector(".popup__image");
+const popupCaption = imagePopup.querySelector(".popup__caption");
+const closeImagePopupButton = imagePopup.querySelector(".popup__close");
+
 function openModal(modal) {
   modal.classList.add("popup_is-opened");
 }
@@ -57,7 +57,6 @@ function closeModal(modal) {
   modal.classList.remove("popup_is-opened");
 }
 
-// --- FUNÇÕES DE PERFIL ---
 function fillProfileForm() {
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileDescription.textContent;
@@ -75,10 +74,7 @@ function handleProfileFormSubmit(evt) {
   closeModal(editPopup);
 }
 
-// --- FUNÇÕES DE RENDERIZAÇÃO DE CARTÕES ---
-
 function getCardElement(data = { name: "Local desconhecido", link: "#" }) {
-  // Clona o template
   const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
 
   const cardImage = cardElement.querySelector(".card__image");
@@ -86,19 +82,23 @@ function getCardElement(data = { name: "Local desconhecido", link: "#" }) {
   const cardLikeButton = cardElement.querySelector(".card__like-button");
   const cardDeleteButton = cardElement.querySelector(".card__delete-button");
 
-  // Define os dados do cartão
   cardTitle.textContent = data.name;
   cardImage.src = data.link;
   cardImage.alt = `Foto de ${data.name}`;
 
-  // 1. Ouvinte para Curtir (Corrigido para bater com seu CSS)
   cardLikeButton.addEventListener("click", () => {
     cardLikeButton.classList.toggle("card__like-button_is-active");
   });
 
-  // 2. Ouvinte para Deletar
   cardDeleteButton.addEventListener("click", () => {
     cardElement.remove();
+  });
+
+  cardImage.addEventListener("click", () => {
+    popupImage.src = data.link;
+    popupImage.alt = data.name;
+    popupCaption.textContent = data.name;
+    openModal(imagePopup);
   });
 
   return cardElement;
@@ -109,8 +109,6 @@ function renderCard(name, link, container) {
   const cardElement = getCardElement(cardData);
   container.prepend(cardElement);
 }
-
-// --- FUNÇÕES DO POPUP "NOVO LOCAL" ---
 
 function handleOpenNewCardModal() {
   newCardForm.reset();
@@ -125,19 +123,16 @@ function handleCardFormSubmit(evt) {
   closeModal(newCardPopup);
 }
 
-// --- EVENT LISTENERS E INICIALIZAÇÃO ---
-
-// Eventos de Perfil
 editButton.addEventListener("click", handleOpenEditModal);
 closeEditButton.addEventListener("click", () => closeModal(editPopup));
 editForm.addEventListener("submit", handleProfileFormSubmit);
 
-// Eventos de Novo Cartão
 addButton.addEventListener("click", handleOpenNewCardModal);
 closeNewCardButton.addEventListener("click", () => closeModal(newCardPopup));
 newCardForm.addEventListener("submit", handleCardFormSubmit);
 
-// Renderização Inicial
+closeImagePopupButton.addEventListener("click", () => closeModal(imagePopup));
+
 initialCards.forEach((card) => {
   renderCard(card.name, card.link, cardsList);
 });
