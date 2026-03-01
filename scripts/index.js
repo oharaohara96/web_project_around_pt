@@ -1,4 +1,3 @@
-// --- DADOS INICIAIS ---
 const initialCards = [
   {
     name: "Vale de Yosemite",
@@ -75,10 +74,15 @@ function getCardElement(data = { name: "Local desconhecido", link: "#" }) {
 
   const cardImage = cardElement.querySelector(".card__image");
   const cardTitle = cardElement.querySelector(".card__title");
+  const cardLikeButton = cardElement.querySelector(".card__like-button");
 
   cardTitle.textContent = data.name;
   cardImage.src = data.link;
   cardImage.alt = `Foto de ${data.name}`;
+
+  cardLikeButton.addEventListener("click", () => {
+    cardLikeButton.classList.toggle("card__like-button_is-active");
+  });
 
   return cardElement;
 }
