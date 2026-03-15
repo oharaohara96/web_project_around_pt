@@ -160,3 +160,28 @@
 input:invalid {
   border: 1px solid red;
 }
+.popup__error {
+  color: #ff0000;
+  font-size: 12px;
+  line-height: 14px;
+  margin-top: 5px;
+  min-height: 1em;
+  display: block;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.popup__input_type_error + .popup__error {
+  opacity: 1;
+}
+
+.popup__input_type_error {
+  border-bottom: 1px solid #ff0000 !important;
+}
+
+.popup__button_disabled {
+  background-color: transparent !important;
+  color: rgba(0, 0, 0, 0.2) !important;
+  border: 1px solid rgba(0, 0, 0, 0.2) !important;
+  cursor: default;
+}
