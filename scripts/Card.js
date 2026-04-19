@@ -38,27 +38,38 @@ _setEventListeners() {
     this._element
       .querySelector(".card__like-button")
       .addEventListener("click", () => {
-        this._handleLikeIcon(); // Chama a gaveta do Like
+        this._handleLikeIcon();
       });
 
     this._element
       .querySelector(".card__delete-button")
       .addEventListener("click", () => {
-        this._handleDeleteCard(); // Chama a gaveta do Delete
+        this._handleDeleteCard();
+      });
+
+    this._element
+      .querySelector(".card__image")
+      .addEventListener("click", () => {
+        this._handleOpenPreview();
       });
   }
 
-  // Gaveta 2: O que acontece no Like
   _handleLikeIcon() {
     this._element
       .querySelector(".card__like-button")
       .classList.toggle("card__like-button_is-active");
   }
 
-  // Gaveta 3: O que acontece no Delete
   _handleDeleteCard() {
     this._element.remove();
     this._element = null;
   }
+
+  _handleOpenPreview() {
+    console.log("Abrindo imagem...");
   }
+
+  }
+
+
 

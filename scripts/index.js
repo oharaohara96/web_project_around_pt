@@ -90,7 +90,20 @@ function getCardElement(data) {
 
 function renderCard(name, link, container) {
   container.prepend(getCardElement({ name, link }));
+  const card = new Card(name, link, "#card-template", () => {
+    popupImage.src = link;
+    popupImage.alt = name;
+    popupCaption.textContent = name;
+    openModal(imagePopup);
+  });
+
+
+  const cardElement = card.generateCard();
+
+
+  container.prepend(cardElement);
 }
+
 
 const showInputError = (formElement, inputElement, errorMessage) => {
   const errorElement = formElement.querySelector(`.${inputElement.name}-error`);
