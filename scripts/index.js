@@ -12,32 +12,15 @@ const validationConfig = {
 };
 
 const initialCards = [
-  {
-    name: "Vale de Yosemite",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg",
-  },
-  {
-    name: "Lago Louise",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lake-louise.jpg",
-  },
-  {
-    name: "Montanhas Calvas",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_bald-mountains.jpg",
-  },
-  {
-    name: "Latemar",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_latemar.jpg",
-  },
-  {
-    name: "Vanoise National Park",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_vanoise.jpg",
-  },
-  {
-    name: "Lago di Braies",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lago.jpg",
-  },
+  { name: "Vale de Yosemite", link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg" },
+  { name: "Lago Louise", link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lake-louise.jpg" },
+  { name: "Montanhas Calvas", link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_bald-mountains.jpg" },
+  { name: "Latemar", link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_latemar.jpg" },
+  { name: "Vanoise National Park", link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_vanoise.jpg" },
+  { name: "Lago di Braies", link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lago.jpg" },
 ];
 
+// Seletores
 const cardsList = document.querySelector(".cards__list");
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
@@ -56,6 +39,12 @@ const imagePopup = document.querySelector("#image-popup");
 const popupImage = imagePopup.querySelector(".popup__image");
 const popupCaption = imagePopup.querySelector(".popup__caption");
 
+// Instâncias de Validação
+const editProfileValidator = new FormValidator(validationConfig, editForm);
+const addCardValidator = new FormValidator(validationConfig, newCardForm);
+
+editProfileValidator.enableValidation();
+addCardValidator.enableValidation();
 
 function renderCard(name, link, container) {
   const card = new Card(name, link, "#card-template", () => {
@@ -64,7 +53,6 @@ function renderCard(name, link, container) {
     popupCaption.textContent = name;
     openModal(imagePopup);
   });
-
   const cardElement = card.generateCard();
   container.prepend(cardElement);
 }
@@ -83,20 +71,25 @@ function handleCardFormSubmit(evt) {
   closeModal(newCardPopup);
 }
 
+// Listeners de Abertura
 document.querySelector(".profile__edit-button").addEventListener("click", () => {
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileDescription.textContent;
+
+  // Limpa erros e checa o botão antes de abrir
+  editProfileValidator.resetValidation();
   openModal(editPopup);
 });
 
 document.querySelector(".profile__add-button").addEventListener("click", () => {
- newCardForm.reset();
-  const submitButton = newCardForm.querySelector(".popup__button");
-  submitButton.classList.add("popup__button_disabled");
-  submitButton.disabled = true;
+  newCardForm.reset();
+
+  // Reseta a validação para desativar o botão do card vazio
+  addCardValidator.resetValidation();
   openModal(newCardPopup);
 });
 
+// Fechamento de Popups
 document.querySelectorAll(".popup").forEach((popup) => {
   popup.addEventListener("mousedown", (evt) => {
     if (evt.target.classList.contains("popup_is-opened") || evt.target.classList.contains("popup__close")) {
@@ -108,11 +101,4 @@ document.querySelectorAll(".popup").forEach((popup) => {
 editForm.addEventListener("submit", handleProfileFormSubmit);
 newCardForm.addEventListener("submit", handleCardFormSubmit);
 
-
 initialCards.forEach((card) => renderCard(card.name, card.link, cardsList));
-
-const editProfileValidator = new FormValidator(validationConfig, editForm);
-editProfileValidator.enableValidation();
-
-const addCardValidator = new FormValidator(validationConfig, newCardForm);
-addCardValidator.enableValidation();

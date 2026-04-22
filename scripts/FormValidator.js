@@ -11,15 +11,7 @@ export default class FormValidator {
     );
   }
 
-  enableValidation() {
-    this._formElement.addEventListener("submit", (evt) => {
-      evt.preventDefault();
-    });
-
-    this._setEventListeners();
-  }
-
-  setEventListeners() {
+  _setEventListeners() {
     this._toggleButtonState();
 
     this._inputList.forEach((inputElement) => {
@@ -39,17 +31,23 @@ export default class FormValidator {
   }
 
   _showInputError(inputElement, errorMessage) {
-    const errorElement = this._formElement.querySelector(`.${inputElement.name}-error`);
+    const errorElement = this._formElement.querySelector(`#${inputElement.id}-error`);
+
     inputElement.classList.add(this._settings.inputErrorClass);
-    errorElement.textContent = errorMessage;
-    errorElement.classList.add(this._settings.errorClass);
+    if (errorElement) {
+      errorElement.textContent = errorMessage;
+      errorElement.classList.add(this._settings.errorClass);
+    }
   }
 
   _hideInputError(inputElement) {
-    const errorElement = this._formElement.querySelector(`.${inputElement.name}-error`);
+    const errorElement = this._formElement.querySelector(`#${inputElement.id}-error`);
+
     inputElement.classList.remove(this._settings.inputErrorClass);
-    errorElement.classList.remove(this._settings.errorClass);
-    errorElement.textContent = "";
+    if (errorElement) {
+      errorElement.classList.remove(this._settings.errorClass);
+      errorElement.textContent = "";
+    }
   }
 
   _hasInvalidInput() {
@@ -66,5 +64,21 @@ export default class FormValidator {
       this._buttonElement.classList.remove(this._settings.inactiveButtonClass);
       this._buttonElement.disabled = false;
     }
+  }
+
+  // Método público para limpar erros e resetar o botão ao abrir o popup
+  resetValidation() {
+    this._toggleButtonState();
+    this._inputList.forEach((inputElement) => {
+      this._hideInputError(inputElement);
+    });
+  }
+
+  enableValidation() {
+    this._formElement.addEventListener("submit", (evt) => {
+      evt.preventDefault();
+    });
+
+    this._setEventListeners();
   }
 }
