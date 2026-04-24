@@ -1,58 +1,57 @@
-import { openModal } from "./utils.js";
-
+// Card.js
 export default class Card {
+  // O quarto parâmetro é a função que define o que acontece ao clicar na imagem
+  constructor(text, link, cardSelector, handleCardClick) {
+    this._text = text;
+    this._link = link;
+    this._cardSelector = cardSelector;
+    this._handleCardClick = handleCardClick;
+  }
 
-constructor (text, link, cardSelector) {
+  _getTemplate() {
+    const cardElement = document
+      .querySelector(this._cardSelector)
+      .content
+      .querySelector(".card")
+      .cloneNode(true);
 
-this._text = text;
-this._link = link;
-this._cardSelector = cardSelector;
-}
+    return cardElement;
+  }
 
-_getTemplate() {
-  const cardElement = document
-    .querySelector(this._cardSelector)
-    .content
-    .querySelector(".card")
-    .cloneNode(true);
+  generateCard() {
+    this._element = this._getTemplate();
+    const cardImage = this._element.querySelector(".card__image");
+    const cardTitle = this._element.querySelector(".card__title");
 
-  return cardElement;
-}
-generateCard() {
-  this._element = this._getTemplate();
+    cardImage.src = this._link;
+    cardImage.alt = this._text;
+    cardTitle.textContent = this._text;
 
-  const cardImage = this._element.querySelector(".card__image")
+    this._setEventListeners();
 
-  const cardTitle = this._element.querySelector(".card__title");
+    return this._element;
+  }
 
-  cardImage.src = this._link ;
-
-  cardImage.alt = this._text ;
-
-  cardTitle.textContent = this._text ;
-
-  this._setEventListeners();
-
-  return this._element;
-}
-
-_setEventListeners() {
+  _setEventListeners() {
+    // Botão Curtir
     this._element
       .querySelector(".card__like-button")
       .addEventListener("click", () => {
         this._handleLikeIcon();
       });
 
+    // Botão Deletar
     this._element
       .querySelector(".card__delete-button")
       .addEventListener("click", () => {
         this._handleDeleteCard();
       });
 
+    // Clique na Imagem para abrir o Popup
     this._element
       .querySelector(".card__image")
       .addEventListener("click", () => {
-        this._handleOpenPreview();
+        this._handleCardClick();
       });
   }
 
@@ -64,14 +63,6 @@ _setEventListeners() {
 
   _handleDeleteCard() {
     this._element.remove();
-    this._element = null;
+    this._element = null; // Boa prática para limpar a memória
   }
-
-  _handleOpenPreview() {
-    console.log("Abrindo imagem...");
-  }
-
-  }
-
-
-
+}
