@@ -1,6 +1,6 @@
-// Card.js
+
 export default class Card {
-  // O quarto parâmetro é a função que define o que acontece ao clicar na imagem
+
   constructor(text, link, cardSelector, handleCardClick) {
     this._text = text;
     this._link = link;
@@ -33,21 +33,18 @@ export default class Card {
   }
 
   _setEventListeners() {
-    // Botão Curtir
     this._element
       .querySelector(".card__like-button")
       .addEventListener("click", () => {
         this._handleLikeIcon();
       });
 
-    // Botão Deletar
     this._element
       .querySelector(".card__delete-button")
       .addEventListener("click", () => {
         this._handleDeleteCard();
       });
 
-    // Clique na Imagem para abrir o Popup
     this._element
       .querySelector(".card__image")
       .addEventListener("click", () => {
@@ -63,6 +60,6 @@ export default class Card {
 
   _handleDeleteCard() {
     this._element.remove();
-    this._element = null; // Boa prática para limpar a memória
+    this._element = null; 
   }
 }
