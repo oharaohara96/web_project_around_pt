@@ -66,7 +66,7 @@ export default class FormValidator {
     }
   }
 
-  // Método público para limpar erros e resetar o botão ao abrir o popup
+  
   resetValidation() {
     this._toggleButtonState();
     this._inputList.forEach((inputElement) => {

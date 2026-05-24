@@ -18,7 +18,11 @@
       </header>
       <main class="content">
         <section class="profile page__section">
-          <img class="profile__image" src="./images/avatar.jpg" alt="Avatar" />
+          <div class="profile__avatar-container">
+            <img class="profile__image profile__avatar" src="./images/avatar.jpg" alt="Avatar" />
+            <button aria-label="Alterar foto de perfil" class="profile__avatar-edit-button" type="button"></button>
+          </div>
+
           <div class="profile__info">
             <h1 class="profile__title">Jacques Cousteau</h1>
             <button
@@ -148,6 +152,45 @@
           <p class="popup__caption"></p>
         </div>
       </div>
+
+      <div class="popup" id="delete-confirm-popup">
+        <div class="popup__content">
+          <button
+            aria-label="Fechar pop-up"
+            class="popup__close"
+            type="button"
+          ></button>
+          <h3 class="popup__title">Tem certeza?</h3>
+          <form class="popup__form" id="delete-confirm-form" novalidate>
+            <button class="button popup__button" type="submit">Sim</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="popup" id="avatar-popup">
+        <div class="popup__content">
+          <button
+            aria-label="Fechar pop-up"
+            class="popup__close"
+            type="button"
+          ></button>
+          <h3 class="popup__title">Alterar a foto do perfil</h3>
+          <form class="popup__form" id="avatar-form" novalidate>
+            <input
+              id="avatar-url"
+              class="popup__input popup__input_type_url"
+              name="avatar"
+              placeholder="Link da foto de perfil"
+              required
+              type="url"
+            />
+            <span id="avatar-url-error" class="popup__error avatar-error"></span>
+
+            <button class="button popup__button" type="submit">Salvar</button>
+          </form>
+        </div>
+      </div>
+
     </div>
     <script type="module" src="./scripts/index.js"></script>
   </body>
