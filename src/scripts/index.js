@@ -92,7 +92,7 @@ function createCard(name, link, cardId, ownerId, isLiked) {
         });
     },
     (cardInstance) => {
-      
+      // POP-UP DE CONFIRMAÇÃO DE EXCLUSÃO
       deleteConfirmPopup.open();
       deleteConfirmPopup.setSubmitAction(() => {
         api.deleteCard(cardId)

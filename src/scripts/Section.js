@@ -11,11 +11,7 @@ export default class Section {
     });
   }
 
-  addItem(element, toTop = false) {
-    if (toTop) {
-      this._container.prepend(element);
-    } else {
-      this._container.append(element);  
-    }
+  addItem(element) {
+    this._container.append(element);
   }
 }
